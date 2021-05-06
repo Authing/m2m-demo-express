@@ -7,13 +7,10 @@ const cors = require('cors');
 const jwt = require('express-jwt');
 const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require('jwks-rsa');
-// Authorization middleware. When used, the
-// Access Token must exist and be verified against
-// the Auth0 JSON Web Key Set
+
+// 授权中间件，Access token 必须存在，并且能被 Authing 应用公钥验签
 const checkJwt = jwt({
-  // Dynamically provide a signing key
-  // based on the kid in the header and 
-  // the signing keys provided by the JWKS endpoint.
+  // 从 Authing 应用服务发现地址动态获取验签公钥
   secret: jwksRsa.expressJwtSecret({
     cache: true,
     rateLimit: true,
@@ -21,7 +18,7 @@ const checkJwt = jwt({
     jwksUri: `https://{应用域名}.authing.cn/oidc/.well-known/jwks.json`
   }),
 
-  // Validate the audience and the issuer.
+  // 验证受众和颁发者
   audience: 'APP_ID',
   issuer: [`https://{应用域名}.authing.cn/oidc`],
   algorithms: ['RS256']
