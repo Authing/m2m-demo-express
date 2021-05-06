@@ -35,3 +35,7 @@ const checkJwt = jwt({
 ```bash
 $ npm start
 ```
+
+# 参考文档
+
+[Node.js Express API Server 快速开始](https://docs.authing.cn/v2/quickstarts/apiServer/nodeJsExpress.html)
